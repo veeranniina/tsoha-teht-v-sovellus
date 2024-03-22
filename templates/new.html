@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2>Luo uusi tehtävä</h2>
+
+<p>Syötä uuden tehtävän tiedot:</p>
+
+<form action="/new" method="POST">
+    <label for="title">Otsikko:</label><br>
+    <input type="text" id="title" name="title" required><br><br>
+
+    <label for="description">Kuvaus:</label><br>
+    <textarea id="description" name="description" rows="4" cols="50"></textarea><br><br>
+
+    <label for="due_date">Määräaika:</label><br>
+    <input type="date" id="due_date" name="due_date"><br><br>
+
+    <label for="priority">Tärkeys:</label><br>
+    <select id="priority" name="priority">
+        <option value="1">Matala</option>
+        <option value="2">Keskitaso</option>
+        <option value="3">Korkea</option>
+    </select><br><br>
+
+    <input type="submit" value="Luo tehtävä">
+</form>
+
+<p>
+<a href="/">Palaa takaisin</a>
+
+{% endblock %}

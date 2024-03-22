@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2>Poista tehtävä</h2>
+
+<form action="/delete" method="post">
+
+<p>Minkä tehtävän haluat poistaa?</p>
+
+{% for task in list %}
+
+<input type="radio" name="task" value="{{ task.id }}"> {{ task.title }} <br>
+
+{% endfor %}
+
+<p>
+
+<input type="submit" value="Poista">
+
+<input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+
+</form>
+
+<p>
+<a href="/">Palaa takaisin</a>
+
+{% endblock %}

@@ -3,4 +3,13 @@
 {% block content %}
 <h2>Etusivu</h2>
 Tervetuloa sovellukseen! Voit luoda itsellesi muistiinpanoja ja asettaa tärkeitä päivämääriä tehtäville
+
+{% if session.user_id %}
+Olet kirjautunut sisään nimellä <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a>
+{% else %}
+Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a>
+{% endif %}
+
+
+{% endif %}
 {% endblock %}
