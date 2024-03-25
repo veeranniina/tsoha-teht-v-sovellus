@@ -5,11 +5,11 @@ import tasks
 
 #tehtävänä on käsitellä sivupyynnöt
 
-@app.route('/')
+@app.route("/")
 def index():
     return render_template('index.html')
 
-@app.route("/login", methods=["get", "post"])
+@app.route("/login", methods=["get", "post"])  #kirjaudu sisään
 def login():
     if request.method == "GET":
         return render_template("login.html")
@@ -22,12 +22,12 @@ def login():
             return render_template("error.html", message="Väärä tunnus tai salasana")
         return redirect("/")
 
-@app.route("/logout")
+@app.route("/logout")   #kirjaudu ulos
 def logout():
     users.logout()
     return redirect("/")
 
-@app.route("/register", methods=["get", "post"])
+@app.route("/register", methods=["get", "post"])  #rekisteröidy
 def register():
     if request.method == "GET":
         return render_template("register.html")
@@ -53,11 +53,11 @@ def register():
         return redirect("/")
 
 
-@app.route("/new")
+@app.route("/new")  #luo uusi task
 def new():
     return render_template("new.html")
 
-@app.route("/delete", methods=["get", "post"])
+@app.route("/delete", methods=["get", "post"])  #poista task
 def remove_deck():
     users.require_role(2)
 
