@@ -1,12 +1,22 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-<h2>Etusivu</h2>
-Tervetuloa sovellukseen! Voit luoda itsellesi muistiinpanoja ja asettaa tärkeitä päivämääriä tehtäville
+<h2>Tervetuloa!</h2>
+
+Voit luoda itsellesi muistiinpanoja saadaksesi arjen aikataulun hallintaan.
 
 {% if session.user_id %}
 Olet kirjautunut sisään nimellä <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a>
 {% else %}
-Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a>
+<p>Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a></p>
+<p><img src="/static/post-it.jpg"><p>
+
+Kieli:          
+<select name="lang">
+<option value="fi" selected> suomi
+<option value="sv"> ruotsi
+<option value="en"> englanti
+</select>
+
 {% endif %}
 {% endblock %}
