@@ -5,7 +5,7 @@
 <h2>Kirjaudu sisään</h2>
 
 <form action="/login" method="POST">
-Tunnus: <br><input type="text" name="username">
+Käyttäjätunnus: <br><input type="text" name="username">
 <p>
 Salasana: <br><input type="password" name="password">
 <p>
@@ -14,6 +14,9 @@ Salasana: <br><input type="password" name="password">
 Jos sinulla ei ole tunnusta, voit luoda uuden tunnuksen <a href="/register">tästä</a>
 
 <p>
+    <a href="/reset_password">Unohditko salasanasi?</a>
+
+</p>
 <a href="/">Palaa takaisin</a>
 
 {% endblock %}
