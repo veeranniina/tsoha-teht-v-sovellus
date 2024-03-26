@@ -53,7 +53,7 @@ def new():
     return render_template("new.html")
 
 @app.route("/delete", methods=["get", "post"])#poista task
-def remove_deck():
+def remove_task():
     users.require_role(2)
     if request.method == "GET":
         my_tasks = tasks.get_task_list(users.user_id())  
