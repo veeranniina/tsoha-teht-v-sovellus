@@ -13,12 +13,9 @@ def create_task(title, description, due_date, priority, status):
     user_id = users.user_id()
     if user_id == 0:
         return False
-    try:
-        sql = "INSERT INTO tasks (user_id, title, description, due_date, priority, status) VALUES (:user_id, :title, :description, :due_date, :priority, :status)"
-        db.session.execute(sql, {"user_id": user_id, "title": title, "description": description, "due_date": due_date, "priority": priority, "status": status})
-        db.session.commit()
-    except:
-        return False
+    sql = "INSERT INTO tasks (user_id, title, description, due_date, priority, status) VALUES (:user_id, :title, :description, :due_date, :priority, :status)"
+    db.session.execute(sql, {"user_id": user_id, "title": title, "description": description, "due_date": due_date, "priority": priority, "status": status})
+    db.session.commit()
     return True
 
 def update_task(task_id, title, description, due_date, priority, status):
