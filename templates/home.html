@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %}Etusivu{% endblock %}
+{% block content %}
+
+{% if session.user_id %}
+<p>Olet kirjautunut sisään nimellä <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a></p>
+
+<h2>Tehtävät</h2>
+<ul>
+    {% for task in tasks %}
+    <li>{{ task.title }}</li>
+    <li>{{ task.description }}</li>
+    <!-- Lisää muita tehtävän tietoja tarpeen mukaan -->
+    {% endfor %}
+</ul>
+
+<h3>Luo uusi tehtävä</h3>
+<form action="/create_task" method="POST">
+    <label for="title">Otsikko:</label><br>
+    <input type="text" id="title" name="title"><br>
+    <label for="description">Kuvaus:</label><br>
+    <textarea id="description" name="description"></textarea><br>
+    <!-- Lisää muita tehtävän ominaisuuksia tarpeen mukaan -->
+    <button type="submit">Luo tehtävä</button>
+</form>
+
+{% else %}
+<p>Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a></p>
+<p><img src="/static/post-it.jpg"></p>
+
+<p>Kieli:
+<select name="lang">
+<option value="fi" selected>suomi</option>
+<option value="sv">ruotsi</option>
+<option value="en">englanti</option>
+</select></p>
+
+{% endif %}
+{% endblock %}
