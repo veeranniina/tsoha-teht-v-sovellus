@@ -4,8 +4,8 @@ from sqlalchemy.sql import text
 from db import db
 
 def login(username, password):
-    sql = "SELECT id, password FROM users WHERE username=:username"   #???toimiiko
-    result = db.session.execute(text(sql, {"username":username}))
+    sql = text("SELECT id, password FROM users WHERE username=:username")  #???toimiiko
+    result = db.session.execute(sql, {"username":username})
     user = result.fetchone()
     if not user:
         return False
