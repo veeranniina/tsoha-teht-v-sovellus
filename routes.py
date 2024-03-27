@@ -1,10 +1,9 @@
 from app import app
 from flask import render_template, request, redirect, url_for, flash
 #from werkzeug.security import generate_password_hash
-import users
-import tasks
+import tasks, users
 #from helpers import generate_random_password
-from db import db
+#from db import db
 
 #tehtävänä on käsitellä sivupyynnöt
 
@@ -19,9 +18,11 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        if not users.login(username, password):
+        if users.login(username, password):
+            return redirect("/")
+        else:
             return render_template("error.html", message="Väärä tunnus tai salasana")
-        return redirect("/")
+        
 
 @app.route("/logout")#kirjaudu ulos
 def logout():
@@ -46,6 +47,7 @@ def register():
             return redirect("/")
         else:
             return render_template("error.html", message="Rekisteröinti ei onnistunut")
+
 
 
 @app.route("/new")#luo uusi task
