@@ -36,17 +36,16 @@ def register():
     if request.method == "POST":
         username = request.form["username"]
         if len(username) < 1 or len(username) > 15:
-            return render_template("error.html", message="Tunnuksessa tulee olla 1-15 merkkiä")
+            return render_template("error.html", message="Tunnuksessa on oltava 1-15 merkkiä")
         password1 = request.form["password1"]
         password2 = request.form["password2"]
         if password1 != password2:
             return render_template("error.html", message="Salasanat eroavat toisistaan")
         if password1 == "":
             return render_template("error.html", message="Salasana on tyhjä")
-        if users.register(username, password1):
-            return redirect("/")
-        else:
+        if not users.register(username, password1):
             return render_template("error.html", message="Rekisteröinti ei onnistunut")
+        return redirect("/")
 
 
 
