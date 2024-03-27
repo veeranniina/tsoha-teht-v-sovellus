@@ -65,6 +65,14 @@ def remove_task():
             deck = request.form["deck"]
             tasks.delete_task(deck, users.user_id())   
         return redirect("/")
+    
+@app.route("/home")
+def home():
+    user_id = users.user_id()
+    if user_id == 0:
+        return redirect("/")
+    user_tasks = tasks.get_task_list()
+    return render_template("home.html", tasks=user_tasks)
 
 #@app.route("/forgot_password", methods=["GET", "POST"])
 #def forgot_password():
