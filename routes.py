@@ -1,9 +1,9 @@
 from app import app
 from flask import render_template, request, redirect, url_for, flash
 #from werkzeug.security import generate_password_hash
-import tasks, users
+import users
+from tasks import *
 #from helpers import generate_random_password
-#from db import db
 
 #tehtävänä on käsitellä sivupyynnöt
 
@@ -49,21 +49,38 @@ def register():
 
 
 
-@app.route("/new")#luo uusi task
+@app.route("/new", methods=["GET", "POST"])#luo uusi task
 def new():
+    if request.method == "POST":
+        title = request.form["title"]
+        description = request.form["description"]
+        due_date = request.form["due_date"]
+        priority = request.form["priority"]
+        status = request.form["status"]
+        
+        #kutsu create_task-funktiota jotta voidaan luoda uusi tehtävä tietokantaan
+        if create_task(title, description, due_date, priority, status):
+            # Ohjaa käyttäjä home-sivulle uuden tehtävän luomisen jälkeen
+            return redirect(url_for('home'))
+        else:
+            #jos tehtävän luominen epäonnistuu, ohjataan käyttäjä takaisin new-sivulle
+            flash("Tehtävän luominen epäonnistui.", "error")
+            return redirect(url_for('new'))
+
+    #jos HTTP-metodi on GET, renderöidään new.html-sivu
     return render_template("new.html")
+
 
 @app.route("/delete", methods=["get", "post"])#poista task
 def remove_task():
-    users.require_role(2)
     if request.method == "GET":
-        my_tasks = tasks.get_task_list(users.user_id())  
+        my_tasks = get_task_list(users.user_id())  
         return render_template("remove.html", list=my_tasks) 
     if request.method == "POST":
         users.check_csrf()
         if "deck" in request.form:
-            deck = request.form["deck"]
-            tasks.delete_task(deck, users.user_id())   
+            task = request.form["deck"]
+            delete_task(task, users.user_id())   
         return redirect("/")
     
 @app.route("/home")
@@ -71,7 +88,7 @@ def home():
     user_id = users.user_id()
     if user_id == 0:
         return redirect("/")
-    user_tasks = tasks.get_task_list()
+    user_tasks = get_task_list()
     return render_template("home.html", tasks=user_tasks)
 
 #@app.route("/forgot_password", methods=["GET", "POST"])
