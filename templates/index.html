@@ -6,9 +6,9 @@
 Voit luoda itsellesi muistiinpanoja saadaksesi arjen aikataulun hallintaan.
 
 {% if session.user_id %}
-Olet kirjautunut sisään nimellä <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a>
+Olet kirjautunut sisään nimellä <b>{{ session.username }}</b>. <a href="/logout">Log out</a>
 {% else %}
-<p>Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a></p>
+<p>Et ole kirjautunut sisään. <a href="/login">Log in</a></p>
 <p><img src="/static/post-it.jpg"><p>
 
 Kieli:          
