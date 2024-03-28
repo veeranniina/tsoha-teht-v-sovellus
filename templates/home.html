@@ -3,7 +3,7 @@
 {% block content %}
 
 {% if session.user_id %}
-    <p>Olet kirjautunut sisään nimellä <b>{{ session.user_name }}</b>. <a href="/logout">Kirjaudu ulos</a></p>
+    <p>Olet kirjautunut sisään nimellä <b>{{ session.username }}</b>. <a href="/logout">Kirjaudu ulos</a></p>
 
     {% if tasks %}
         <h2>Muistiinpanot</h2>
@@ -11,7 +11,9 @@
             {% for task in tasks %}
             <li>{{ task.title }}</li>
             <li>{{ task.description }}</li>
-            <!-- Lisää muita tehtävän tietoja tarpeen mukaan -->
+            <li>{{ date }}</li>
+            <li>{{ due_date }}</li>
+            <li>{{ priority }}</li>
             {% endfor %}
         </ul>
     {% else %}
