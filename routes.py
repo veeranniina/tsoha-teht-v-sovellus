@@ -56,10 +56,9 @@ def new():
         description = request.form["description"]
         due_date = request.form["due_date"]
         priority = request.form["priority"]
-        status = request.form["status"]
         
         #kutsu create_task-funktiota jotta voidaan luoda uusi tehtävä tietokantaan
-        if create_task(title, description, due_date, priority, status):
+        if create_task(title, description, due_date, priority):
             # Ohjaa käyttäjä home-sivulle uuden tehtävän luomisen jälkeen
             return redirect(url_for('home'))
         else:
@@ -75,11 +74,11 @@ def new():
 def remove_task():
     if request.method == "GET":
         my_tasks = get_task_list(users.user_id())  
-        return render_template("remove.html", list=my_tasks) 
+        return render_template("delete.html", list=my_tasks) 
     if request.method == "POST":
         users.check_csrf()
-        if "deck" in request.form:
-            task = request.form["deck"]
+        if "task" in request.form:
+            task = request.form["task"]
             delete_task(task, users.user_id())   
         return redirect("/")
     
