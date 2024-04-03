@@ -1,7 +1,9 @@
+import os
 from db import db
-from flask import session, request, abort
+from flask import abort, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 from sqlalchemy.sql import text
+import secrets
 
 
 def login(username, password):
@@ -10,13 +12,15 @@ def login(username, password):
     user = result.fetchone()
     if not user:
         return False
-    else:
-        if check_password_hash(user.password, password):
-            session["user_id"] = user.id
-            session["username"] = username
-            return True
-        else:
-            return False
+    
+    if not check_password_hash(user.password, password):
+        return False
+    
+    session["user_id"] = user.id
+    session["username"] = username
+    session["csrf_token"] = secrets.token_hex(16)
+    return True
+        
 
 def logout():
     del session["user_id"]
@@ -37,3 +41,6 @@ def user_id():
 def check_csrf():
     if session["csrf_token"] != request.form["csrf_token"]:
         abort(403)
+        # jos csrf_token on väärä, sivun käsittely katkeaa ja tuloksena on HTTP-virhekoodi 
+        #403 (Forbidden). Koska hyökkääjä ei tiedä, mikä csrf_token liittyy käyttäjän istuntoon, 
+        #tämä estää tehokkaasti CSRF-haavoittuvuuden.
