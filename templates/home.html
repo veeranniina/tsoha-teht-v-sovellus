@@ -1,24 +1,36 @@
 {% extends "layout.html" %}
-{% block title %}Etusivu{% endblock %}
 {% block content %}
 
 {% if session.user_id %}
     <p>Olet kirjautunut sisään nimellä <b>{{ session.username }}</b>. <a href="/logout">Kirjaudu ulos</a></p>
 
     {% if tasks %}
-        <h2>Muistiinpanot</h2>
-        <ul>
+    <h1>Muistiinpanot</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Otsikko</th>
+                <th>Kuvaus</th>
+                <th>Päivämäärä</th>
+                <th>Määräaika</th>
+                <th>Tärkeys</th>
+            </tr>
+        </thead>
+        <tbody>
             {% for task in tasks %}
-            <li>{{ task.title }}</li>
-            <li>{{ task.description }}</li>
-            <li>{{ date }}</li>
-            <li>{{ due_date }}</li>
-            <li>{{ priority }}</li>
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.date }}</td>
+                <td>{{ task.due_date }}</td>
+                <td>{{ task.priority }}</td>
+            </tr>
+            
             {% endfor %}
-        </ul>
-    {% else %}
-        <p>Sinulla ei ole muistiinpanoja.</p>
-    {% endif %}
+        </tbody>
+    </table>
+    <a href="/delete"><button type="button">Poista muistiinpano</button></a>
+{% endif %}
 
     <a href="/new"><button>Luo uusi muistiinpano</button></a>
 
@@ -26,11 +38,10 @@
     <p>Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a></p>
     <p><img src="/static/post-it.jpg"></p>
 
-    <p>Kieli:
-    <select name="lang">
-        <option value="fi" selected>suomi</option>
-        <option value="sv">ruotsi</option>
-        <option value="en">englanti</option>
-    </select></p>
 {% endif %}
+
+{% if message %}
+    <p>{{ message }}</p>
+{% endif %}
+
 {% endblock %}
