@@ -8,6 +8,7 @@ body {
 
 table {
     width: 80%;
+    margin: auto;
 }
 
 img {
@@ -36,6 +37,13 @@ li a {
     font-weight: bold;
   }
   
+  td, th {
+    border-style: solid;    
+    border-color: black;
+    border-width: 2px;
+    white-space: nowrap; /*estää tekstin ylivuodon */
+}
+
   /* vaihtaa linkkivärin #111 (black) */
   li a:hover {
     background-color: #afafaf;
