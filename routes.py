@@ -1,8 +1,8 @@
 from app import app
-from flask import render_template, request, redirect, url_for, flash
+from flask import session, render_template, request, redirect, url_for, flash
 #from werkzeug.security import generate_password_hash
 import users
-from tasks import *
+import tasks
 #from helpers import generate_random_password
 
 #tehtävänä on käsitellä sivupyynnöt
@@ -58,7 +58,7 @@ def new():
         priority = request.form["priority"]
         
         #kutsu create_task-funktiota jotta voidaan luoda uusi tehtävä tietokantaan
-        if create_task(title, description, due_date, priority):
+        if tasks.create_task(title, description, due_date, priority):
             # Ohjaa käyttäjä home-sivulle uuden tehtävän luomisen jälkeen
             return redirect(url_for('home'))
         else:
@@ -70,24 +70,28 @@ def new():
     return render_template("new.html")
 
 
-@app.route("/delete", methods=["get", "post"])#poista task
-def remove_task():
+@app.route("/delete", methods=["GET", "POST"])
+def delete_task():
+    user_id = session.get("user_id")
     if request.method == "GET":
-        my_tasks = get_task_list(users.user_id())  
-        return render_template("delete.html", list=my_tasks) 
+        my_tasks = tasks.get_task_list()
+        return render_template("delete.html", list=my_tasks)
     if request.method == "POST":
         users.check_csrf()
         if "task" in request.form:
             task = request.form["task"]
-            delete_task(task, users.user_id())   
-        return redirect("/")
+            tasks.delete_task(task, user_id)
+            message = "Muistiinpanon poistaminen onnistui!"  #asetetaan viesti
+        my_tasks = tasks.get_task_list()  #päivitetään tehtävälista/muistiinpanot
+        return render_template("home.html", tasks=my_tasks, message=message)  #lisätään viesti templateen
+        #"return redirect("/") ??
     
 @app.route("/home")
 def home():
     user_id = users.user_id()
     if user_id == 0:
         return redirect("/")
-    user_tasks = get_task_list()
+    user_tasks = tasks.get_task_list()
     return render_template("home.html", tasks=user_tasks)
 
 #@app.route("/forgot_password", methods=["GET", "POST"])
