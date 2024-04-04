@@ -3,8 +3,8 @@ import users
 from sqlalchemy.sql import text
 
 def get_task_list(user_id):
-    #if user_id == 0:
-        #return []
+    if user_id == 0:
+        return []
     sql = text("SELECT * FROM tasks WHERE user_id=:user_id ORDER BY id DESC")
     result = db.session.execute(sql, {"user_id": user_id})
     return result.fetchall()
