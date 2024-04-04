@@ -13,13 +13,14 @@ def login(username, password):
     if not user:
         return False
     
-    if not check_password_hash(user.password, password):
-        return False
-    
-    session["user_id"] = user.id
-    session["username"] = username
-    session["csrf_token"] = secrets.token_hex(16)
-    return True
+    else:
+        if check_password_hash(user.password, password):
+            session["user_id"] = user.id
+            session["username"] = username
+            session["csrf_token"] = secrets.token_hex(16)
+            return True
+        else:
+            return False
         
 
 def logout():
@@ -39,7 +40,8 @@ def user_id():
     return session.get("user_id", 0)
 
 def check_csrf():
-    if session["csrf_token"] != request.form["csrf_token"]:
+    csrf_token = session.get("csrf_token")
+    if not csrf_token or csrf_token != request.form.get("csrf_token"):
         abort(403)
         # jos csrf_token on väärä, sivun käsittely katkeaa ja tuloksena on HTTP-virhekoodi 
         #403 (Forbidden). Koska hyökkääjä ei tiedä, mikä csrf_token liittyy käyttäjän istuntoon, 
