@@ -72,15 +72,15 @@ def new():
 
 @app.route("/delete", methods=["GET", "POST"])
 def delete_task():
-    user_id = session.get("user_id")
+    #user_id = session.get("user_id")
     if request.method == "GET":
-        my_tasks = tasks.get_task_list()
+        my_tasks = tasks.get_task_list(users.user_id())
         return render_template("delete.html", list=my_tasks)
     if request.method == "POST":
         users.check_csrf()
         if "task" in request.form:
             task = request.form["task"]
-            tasks.delete_task(task, user_id)
+            tasks.delete_task(task, users.user_id())
             message = "Muistiinpanon poistaminen onnistui!"  #asetetaan viesti
         my_tasks = tasks.get_task_list()  #päivitetään tehtävälista/muistiinpanot
         return render_template("home.html", tasks=my_tasks, message=message)  #lisätään viesti templateen
