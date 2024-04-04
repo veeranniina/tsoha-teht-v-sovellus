@@ -2,6 +2,10 @@
 {% block title %}Kirjaudu sisään{% endblock %}
 {% block content %}
 
+{% if session.username %}
+    <p>Olet kirjautunut sisään käyttäjänimellä <b>{{ session.username }}</b>. <a href="/logout">Kirjaudu ulos</a></p>
+{% else %}
+
 <h2>Kirjaudu sisään</h2>
 
 <form action="/login" method="POST">
@@ -18,5 +22,7 @@ Jos sinulla ei ole tunnusta, voit luoda uuden tunnuksen <a href="/register">täs
 
 </p>
 <a href="/">Palaa takaisin</a>
+
+{% endif %}
 
 {% endblock %}
