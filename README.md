@@ -1,7 +1,5 @@
 # Tehtävälista-sovellus
 
-Jokainen käyttäjä on peruskäyttäjä tai ylläpitäjä.
-
 Sovelluksen ominaisuuksia:
 
 - Käyttäjä voi luoda uuden tunnuksen ja kirjautua sisään sovellukseen
@@ -13,7 +11,6 @@ Sovelluksen ominaisuuksia:
 - Mahdollisuus asettaa tehtäville toistuvuus, esim. päivittäin, viikoittain tai kuukausittain
 - Käyttäjä voi kirjoittaa jo olemassa olevaan tehtävään
 - Käyttäjä voi muokata tehtävänimikettä ja sen sisältöä sekä määräaikaa
-- Ylläpitäjä voi poistaa tehtäviä ja käyttäjiä
 
 
 Tällä hetkellä:
