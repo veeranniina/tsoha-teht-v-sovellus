@@ -18,7 +18,7 @@ def create_task(title, description, date, due_date, priority):
     db.session.commit()
     return True
 
-def update_task(task_id, title, description, date, due_date, priority):
+def edit_task(task_id, title, description, date, due_date, priority):
     user_id = users.user_id()
     if user_id == 0:
         return False
@@ -34,3 +34,9 @@ def delete_task(task_id, user_id):
     sql = text("DELETE FROM tasks WHERE id=:task_id AND user_id=:user_id")
     db.session.execute(sql, {"task_id": task_id, "user_id": user_id})
     db.session.commit()
+
+def get_task_from_database(task_id):
+    sql = text("SELECT * FROM tasks WHERE id=:task_id")
+    result = db.session.execute(sql, {"task_id": task_id})
+    task = result.fetchone()
+    return task
