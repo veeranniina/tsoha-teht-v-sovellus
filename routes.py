@@ -2,7 +2,7 @@ from app import app
 from flask import session, render_template, request, redirect, url_for, flash
 #from werkzeug.security import generate_password_hash
 import users
-import tasks
+from tasks import *
 from datetime import datetime
 #from helpers import generate_random_password
 
@@ -58,10 +58,10 @@ def new():
         due_date = request.form["due_date"]
         priority = request.form["priority"]
         
-        date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        date = datetime.now().strftime("%Y-%m-%d %H:%M:")
 
         #kutsu create_task-funktiota jotta voidaan luoda uusi tehtävä tietokantaan
-        if tasks.create_task(title, description, date, due_date, priority):
+        if create_task(title, description, date, due_date, priority):
             # Ohjaa käyttäjä home-sivulle uuden tehtävän luomisen jälkeen
             return redirect(url_for('home'))
         else:
@@ -74,18 +74,18 @@ def new():
 
 
 @app.route("/delete", methods=["GET", "POST"])
-def delete_task():
+def delete_task_route():
     #user_id = session.get("user_id")
     if request.method == "GET":
-        my_tasks = tasks.get_task_list(users.user_id())
+        my_tasks = get_task_list(users.user_id())
         return render_template("delete.html", list=my_tasks)
     if request.method == "POST":
         users.check_csrf()
         if "task" in request.form:
             task = request.form["task"]
-            tasks.delete_task(task, users.user_id())
+            delete_task(task, users.user_id())
             message = "Muistiinpanon poistaminen onnistui!"  #asetetaan viesti
-        my_tasks = tasks.get_task_list(users.user_id())  #päivitetään tehtävälista/muistiinpanot
+        my_tasks = get_task_list(users.user_id())  #päivitetään tehtävälista/muistiinpanot
         return render_template("home.html", tasks=my_tasks, message=message)  #lisätään viesti templateen
         #"return redirect("/") ??
     
@@ -94,9 +94,28 @@ def home():
     user_id = users.user_id()
     if user_id == 0:
         return redirect("/")
-    user_tasks = tasks.get_task_list(user_id)
+    user_tasks = get_task_list(user_id)
     return render_template("home.html", tasks=user_tasks)
 
+@app.route("/edit/<int:task_id>", methods=["GET", "POST"])
+def edit_task(task_id):
+    if request.method == "GET":
+        task = get_task_from_database(task_id) 
+        return render_template("edit.html", task=task)
+    elif request.method == "POST":
+        #käsittelee muokkauslomakkeen tiedot ja tallentaa muutokset db
+        title = request.form.get("title")
+        description = request.form.get("description")
+        due_date = request.form.get("due_date")
+        priority = request.form.get("priority")
+        
+        if edit_task(task_id, title, description, None, due_date, priority): #None -> ei muokata luontiaikaa
+            return redirect(url_for('home')) 
+        else:
+            #virheenkäsittely tarvittaessa
+            flash("Muokkaus epäonnistui.", "error")
+            return redirect(url_for('edit'))
+    return render_template("home.html")
 
 
 #@app.route("/forgot_password", methods=["GET", "POST"])
