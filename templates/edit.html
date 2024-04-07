@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Muokkaa muistiinpanoa</h1>
+
+<form method="POST" action="/edit/{{ task_id }}"> 
+    <label for="title">Otsikko:</label><br>
+    <input type="text" id="title" name="title" value="{{ task.title }}"><br>
+    
+    <label for="description">Kuvaus:</label><br>
+    <textarea id="description" name="description">{{ task.description }}</textarea><br>
+    
+    <label for="due_date">Määräaika:</label><br>
+    <input type="text" id="due_date" name="due_date" value="{{ task.due_date }}"><br>
+    
+    <label for="priority">Tärkeys:</label><br>
+    <input type="number" id="priority" name="priority" value="{{ task.priority }}"><br>
+    
+    <input type="submit" value="Tallenna muutokset">
+</form>
+
+{% endblock %}
