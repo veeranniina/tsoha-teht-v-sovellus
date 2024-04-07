@@ -98,10 +98,10 @@ def home():
     return render_template("home.html", tasks=user_tasks)
 
 @app.route("/edit/<int:task_id>", methods=["GET", "POST"])
-def edit_task(task_id):
+def edit_task_route(task_id):
     if request.method == "GET":
         task = get_task_from_database(task_id) 
-        return render_template("edit.html", task=task)
+        return render_template("edit.html", task=task, task_id=task_id)
     elif request.method == "POST":
         #käsittelee muokkauslomakkeen tiedot ja tallentaa muutokset db
         title = request.form.get("title")
@@ -114,7 +114,7 @@ def edit_task(task_id):
         else:
             #virheenkäsittely tarvittaessa
             flash("Muokkaus epäonnistui.", "error")
-            return redirect(url_for('edit'))
+            return redirect(url_for('edit_task', task_id=task_id))
     return render_template("home.html")
 
 
