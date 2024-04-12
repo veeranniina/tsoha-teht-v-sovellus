@@ -110,7 +110,8 @@ def edit_task_route(task_id):
         priority = request.form.get("priority")
         
         if edit_task(task_id, title, description, None, due_date, priority): #None -> ei muokata luontiaikaa
-            return redirect(url_for('home')) 
+            message = "Muokkaus onnistui!"
+            return render_template("home.html", message=message)
         else:
             #virheenkäsittely tarvittaessa
             flash("Muokkaus epäonnistui.", "error")
