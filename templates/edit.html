@@ -16,6 +16,13 @@
     <label for="priority">Tärkeys:</label><br>
     <input type="number" id="priority" name="priority" value="{{ task.priority }}"><br>
     
+    <label for="category">Kategoria:</label><br>
+    <select id="category" name="category">
+        {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+        {% endfor %}
+    </select><br><br>
+
     <input type="submit" value="Tallenna muutokset">
 </form>
 
