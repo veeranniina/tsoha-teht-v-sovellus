@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<h2>Luo uusi tehtävä</h2>
+<h2>Luo uusi muistiinpano</h2>
 
-<p>Syötä uuden tehtävän tiedot:</p>
+<p>Syötä uuden muistiinpanon tiedot:</p>
 
 <form action="/new" method="POST">
     <label for="title">Otsikko:</label><br>
@@ -20,6 +20,13 @@
         <option value="1">Matala</option>
         <option value="2">Keskitaso</option>
         <option value="3">Korkea</option>
+    </select><br><br>
+
+    <label for="category">Kategoria:</label><br>
+    <select id="category" name="category">
+        {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+        {% endfor %}
     </select><br><br>
 
     <input type="submit" value="Luo tehtävä">
