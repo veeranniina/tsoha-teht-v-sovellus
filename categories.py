@@ -25,3 +25,9 @@ def edit_category(category_id, category_name):
         return True
     except:
         return False
+    
+def get_categories_from_database(category_id):
+    sql = text("SELECT * FROM categories WHERE id=:category_id")
+    result = db.session.execute(sql, {"category_id": category_id})
+    category = result.fetchone()
+    return category
