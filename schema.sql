@@ -13,6 +13,7 @@ CREATE TABLE tasks (
     date TIMESTAMP, 
     due_date TEXT, 
     priority INTEGER, 
+    category_id
 );
 
 CREATE TABLE categories (
