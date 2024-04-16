@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h2>Luo uusi kategoria</h2>
+
+<form action="/categories" method="POST"></form>
+    <label for="name">Nimi:</label><br>
+    <input type="text" id="name" name="name" required><br><br>
+
+    <input type="submit" value="Luo kategoria">
+</form>
+
+<a href="/">Palaa takaisin</a>
+
+{% endblock %}
