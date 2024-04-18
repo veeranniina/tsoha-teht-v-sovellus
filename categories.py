@@ -2,32 +2,32 @@ from db import db
 from sqlalchemy.sql import text
 import users
 
-def create_category(category_name):
+def create_category(name):
     user_id = users.user_id()
     if user_id == 0:
         return False
     try:
-        sql = text("INSERT INTO categories (user_id, name) VALUES (:user_id, :category_name)")
-        db.session.execute(sql, {"user_id": user_id, "category_name": category_name})
+        sql = text("INSERT INTO categories (user_id, name) VALUES (:user_id, :name)")
+        db.session.execute(sql, {"user_id": user_id, "name": name})
         db.session.commit()
         return True
     except:
         return False
 
-def edit_category(category_id, category_name):
+def edit_category(id, name):
     user_id = users.user_id()
     if user_id == 0:
         return False
     try:
-        sql = text("UPDATE categories SET name = :category_name WHERE id = :category_id AND user_id = :user_id")
-        db.session.execute(sql, {"category_name": category_name, "category_id": category_id, "user_id": user_id})
+        sql = text("UPDATE categories SET name = :name WHERE id = :id AND user_id = :user_id")
+        db.session.execute(sql, {"name": name, "id": id, "user_id": user_id})
         db.session.commit()
         return True
     except:
         return False
     
-def get_categories_from_database(category_id):
-    sql = text("SELECT * FROM categories WHERE id=:category_id")
-    result = db.session.execute(sql, {"category_id": category_id})
-    category = result.fetchone()
-    return category
+def get_categories_from_database():
+    sql = text("SELECT id, user_id, name FROM categories")  #muokkaa tätä
+    result = db.session.execute(sql)
+    categories = result.fetchall()
+    return categories
