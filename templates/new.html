@@ -17,14 +17,15 @@
 
     <label for="priority">Tärkeys:</label><br>
     <select id="priority" name="priority">
-        <option value="1">Matala</option>
+        <option value="1">Korkea</option>
         <option value="2">Keskitaso</option>
-        <option value="3">Korkea</option>
+        <option value="3">Matala</option>
     </select><br><br>
 
     <label for="category">Kategoria:</label><br>
-    <select id="category" name="category">
-        {% for category in categories %}
+        
+        <select id="category" name="category">
+            {% for category in categories %}
             <option value="{{ category.id }}">{{ category.name }}</option>
         {% endfor %}
     </select><br><br>
