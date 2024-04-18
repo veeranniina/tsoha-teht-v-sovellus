@@ -13,7 +13,7 @@ CREATE TABLE tasks (
     date TIMESTAMP, 
     due_date TEXT, 
     priority INTEGER, 
-    category_id
+    category_id INTEGER REFERENCES categories,
 );
 
 CREATE TABLE categories (
@@ -21,3 +21,8 @@ CREATE TABLE categories (
     user_id INTEGER REFERENCES users, 
     name TEXT
 );
+
+
+
+
+<-------INSERT INTO categories (user_id, name) VALUES (NULL, 'Ei kategoriaa');       Tämä luo tauluun oman rivin edustamaan "ei kategoriaa" -tilaa.
