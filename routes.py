@@ -4,6 +4,7 @@ from flask import session, render_template, request, redirect, url_for, flash
 import users
 from tasks import *
 from datetime import datetime
+from categories import *
 #from helpers import generate_random_password
 
 #tehtävänä on käsitellä sivupyynnöt
@@ -50,27 +51,27 @@ def register():
 
 
 
-@app.route("/new", methods=["GET", "POST"])#luo uusi task
+@app.route("/new", methods=["GET", "POST"])
 def new():
     if request.method == "POST":
         title = request.form["title"]    #kysyy nämä käyttäjältä
         description = request.form["description"]
         due_date = request.form["due_date"]
         priority = request.form["priority"]
+        category_id = request.form["category"]
+
         
         date = datetime.now().strftime("%Y-%m-%d %H:%M:")
 
         #kutsu create_task-funktiota jotta voidaan luoda uusi tehtävä tietokantaan
-        if create_task(title, description, date, due_date, priority):
-            # Ohjaa käyttäjä home-sivulle uuden tehtävän luomisen jälkeen
+        if create_task(title, description, date, due_date, priority, category_id):
             return redirect(url_for('home'))
         else:
-            #jos tehtävän luominen epäonnistuu, ohjataan käyttäjä takaisin new-sivulle
             flash("Tehtävän luominen epäonnistui.", "error")
             return redirect(url_for('new'))
 
-    #jos HTTP-metodi on GET, renderöidään new.html-sivu
-    return render_template("new.html")
+    categories = get_categories_from_database()
+    return render_template("new.html", categories=categories)
 
 
 @app.route("/delete", methods=["GET", "POST"])
@@ -108,8 +109,9 @@ def edit_task_route(task_id):
         description = request.form.get("description")
         due_date = request.form.get("due_date")
         priority = request.form.get("priority")
+        category_id = request.form.get("category_id")
         
-        if edit_task(task_id, title, description, None, due_date, priority): #None -> ei muokata luontiaikaa
+        if edit_task(task_id, title, description, None, due_date, priority, category_id): #None -> ei muokata luontiaikaa
             message = "Muokkaus onnistui!"
             return render_template("home.html", message=message)
         else:
@@ -117,6 +119,21 @@ def edit_task_route(task_id):
             flash("Muokkaus epäonnistui.", "error")
             return redirect(url_for('edit_task', task_id=task_id))
     return render_template("home.html")
+
+@app.route("/categories", methods=["GET", "POST"])
+def categories_route():
+    if request.method == "GET": #hae kategoriat tietokannasta
+        categories = get_categories_from_database()
+        return render_template("categories.html", categories=categories)
+    elif request.method == "POST":
+        name = request.form.get("name")
+        if create_category(name):
+            flash("Uusi kategoria luotu onnistuneesti", "success")
+        else:
+            flash("Kategorian luominen epäonnistui", "error")
+        return redirect(url_for("categories_route"))
+
+
 
 
 #@app.route("/forgot_password", methods=["GET", "POST"])
