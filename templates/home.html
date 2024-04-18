@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
 
+
 {% if session.user_id %}
     <p>Olet kirjautunut sisään käyttäjänimellä <b>{{ session.username }}</b>. <a href="/logout">Kirjaudu ulos</a></p>
 
@@ -11,7 +12,7 @@
             <tr>
                 <th>Otsikko</th>
                 <th>Kuvaus</th>
-                <th>Päivämäärä</th>
+                <th>Luotu</th>
                 <th>Määräaika</th>
                 <th>Tärkeys</th>
                 <th>Toiminnot</th>
