@@ -17,6 +17,15 @@
     background-color: #afafaf;
 }
 
+.reminders-list {
+    list-style-type: none;
+    margin: 0 auto; 
+    padding: 0;
+    overflow: hidden;
+    background-color: #ffffff;
+    width: fit-content; 
+}
+
 body {
     margin: auto;
     max-width: 45em;
@@ -28,6 +37,8 @@ body {
 table {
     width: 80%;
     margin: auto;
+    border-collapse: collapse;
+    border-radius: 5px;
 }
 
 img {
@@ -44,7 +55,7 @@ ul {
   }
 
 li {
-    float: left;
+    float: center;
 }
 
 li a {
@@ -59,8 +70,10 @@ li a {
 td, th {
     border-style: solid;    
     border-color: black;
-    border-width: 2px;
+    border-width: 1px;
+    padding: 8px;
     white-space: nowrap; /*estää tekstin ylivuodon */
+    text-align: center;
 }
 
   /* vaihtaa linkkivärin #111 (black) */
@@ -70,11 +83,13 @@ li a:hover {
 
 .category-list {
     list-style-type: none;
-    margin: auto; /* keskittää vaakasuunnnassa */
     padding: 0;
     background-color: #ffffff;
-    max-width: 80%; 
-    text-align: center; /* keskittää listan lapsielementit */
+    display: inline-block; 
+}
+
+.category-container {
+    text-align: center; 
 }
 
 .category-list li {
