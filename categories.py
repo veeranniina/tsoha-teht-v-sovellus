@@ -54,10 +54,6 @@ def create_category(name):
             flash("Samanniminen kategoria on jo olemassa!", "error")
             return False  
         
-<<<<<<< HEAD
-        
-=======
->>>>>>> 5b63a105c8bd22782e640f0d9543559d85c7e1e0
         #lisätään tietokantaan
         sql_insert = text("INSERT INTO categories (user_id, name) VALUES (:user_id, :name)")
         db.session.execute(sql_insert, {"user_id": user_id, "name": name})
@@ -66,4 +62,25 @@ def create_category(name):
         return True
     except:
         flash("Kategorian lisäys epäonnistui!", "error")
+        return False
+    
+
+def delete_category(category_id):
+    user_id = users.user_id()
+    if user_id == 0:
+        return False
+    try:
+        #tarkistetaan että poistettava kategoria kuuluu käyttäjälle
+        sql_check = text("SELECT id FROM categories WHERE id = :category_id AND user_id = :user_id")
+        result = db.session.execute(sql_check, {"category_id": category_id, "user_id": user_id})
+        existing_category = result.fetchone()
+        if not existing_category:
+            return False  
+
+        #poistetaan kategoria
+        sql_delete = text("DELETE FROM categories WHERE id = :category_id")
+        db.session.execute(sql_delete, {"category_id": category_id})
+        db.session.commit()
+        return True
+    except:
         return False
