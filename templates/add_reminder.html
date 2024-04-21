@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+    <h1>Luo muistutus</h1>
+    <form action="/add_reminder" method="POST">
+        <label for="task_id">Valitse tehtävä:</label>
+        <select id="task_id" name="task_id">
+            {% for task in tasks %}
+                <option value="{{ task.id }}">{{ task.title }}</option>
+            {% endfor %}
+        </select><br><br>
+        
+        <label for="reminder_date">Muistutuksen päivämäärä:</label>
+        <input type="date" id="reminder_date" name="reminder_date" required><br><br>
+        
+        <label for="reminder_message">Muistutuksen viesti:</label>
+        <input type="text" id="reminder_message" name="reminder_message" required><br><br>
+        
+        <input type="submit" value="Luo muistutus">
+    </form>
+{% endblock %}
