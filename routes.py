@@ -5,13 +5,19 @@ import users
 from tasks import *
 from datetime import datetime
 from categories import *
+from reminders import *
 #from helpers import generate_random_password
 
 #tehtävänä on käsitellä sivupyynnöt
 
 @app.route("/")
 def index():
-    return render_template('index.html')
+    user_id = users.user_id()
+    if user_id == 0:
+        return redirect("/login")
+
+    user_reminders = get_user_reminders(user_id)
+    return render_template("index.html", reminders=user_reminders)
 
 @app.route("/login", methods=["get", "post"])#kirjaudu sisään
 def login():
@@ -63,14 +69,20 @@ def new():
         
         date = datetime.now().strftime("%Y-%m-%d %H:%M:")
 
+        user_id = session.get("user_id")
+
+        if category_id == "":
+            category_id = 1
+
         #kutsu create_task-funktiota jotta voidaan luoda uusi tehtävä tietokantaan
         if create_task(title, description, date, due_date, priority, category_id):
             return redirect(url_for('home'))
         else:
             flash("Tehtävän luominen epäonnistui.", "error")
             return redirect(url_for('new'))
-
-    categories = get_categories_from_database()
+        
+    user_id = session.get("user_id")
+    categories = get_categories_from_database(user_id)
     return render_template("new.html", categories=categories)
 
 
@@ -96,7 +108,8 @@ def home():
     if user_id == 0:
         return redirect("/")
     user_tasks = get_task_list(user_id)
-    return render_template("home.html", tasks=user_tasks)
+    user_reminders = get_user_reminders(user_id)
+    return render_template("home.html", tasks=user_tasks, reminders=user_reminders)
 
 @app.route("/edit/<int:task_id>", methods=["GET", "POST"])
 def edit_task_route(task_id):
@@ -123,16 +136,65 @@ def edit_task_route(task_id):
 @app.route("/categories", methods=["GET", "POST"])
 def categories_route():
     if request.method == "GET": #hae kategoriat tietokannasta
-        categories = get_categories_from_database()
+        user_id = session.get("user_id")
+        if user_id is None:
+            return redirect(url_for("login"))
+        categories = get_categories_from_database(user_id)
         return render_template("categories.html", categories=categories)
     elif request.method == "POST":
         name = request.form.get("name")
         if create_category(name):
-            flash("Uusi kategoria luotu onnistuneesti", "success")
+            flash("Uusi kategoria luotu onnistuneesti!", "success")
         else:
-            flash("Kategorian luominen epäonnistui", "error")
+            flash("Kategorian luominen epäonnistui!", "error")
         return redirect(url_for("categories_route"))
 
+@app.route('/delete_category/<int:category_id>', methods=['POST'])
+def delete_category_route(category_id):
+    user_id = session.get("user_id")
+    if user_id is None:
+        return redirect(url_for("login"))
+
+    if delete_category(category_id):
+        flash("Kategoria poistettiin onnistuneesti!", "success")
+    else:
+        flash("Kategorian poisto epäonnistui!", "error")
+
+    return redirect(url_for("categories_route"))
+
+
+@app.route('/add_reminder', methods=['GET', 'POST'])
+def add_reminder_route():
+    if request.method == 'GET':
+        user_id = session.get("user_id")
+        if user_id is None:
+            return redirect(url_for("login"))
+
+        tasks = get_task_list(user_id)  
+        return render_template('add_reminder.html', tasks=tasks)
+    
+    user_id = session.get("user_id")
+    if user_id is None:
+        return redirect(url_for("login"))
+
+    task_id = request.form.get("task_id")
+    reminder_date = request.form.get("reminder_date")
+    reminder_message = request.form.get("reminder_message")
+
+    if add_reminder(user_id, task_id, reminder_date, reminder_message):
+        flash("Muistutus lisättiin onnistuneesti", "success")
+    else:
+        flash("Muistutuksen lisääminen epäonnistui", "error")
+
+    return redirect(url_for("home"))
+
+@app.route("/delete_reminder/<int:reminder_id>", methods=["POST"])
+def delete_reminder_route(reminder_id):
+    if delete_reminder(reminder_id):
+        flash("Muistutus poistettiin onnistuneesti", "success")
+    else:
+        flash("Muistutuksen poistaminen epäonnistui", "error")
+    return redirect(url_for("home"))
 
 
 
