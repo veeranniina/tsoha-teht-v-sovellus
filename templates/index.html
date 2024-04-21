@@ -1,23 +1,27 @@
 {% extends "layout.html" %}
 {% block title %}Etusivu{% endblock %}
 {% block content %}
-<h2>Tervetuloa!</h2>
+    {% if session.user_id %}
+        {% if reminders %}
+            <h2>Muistutukset</h2>
+            <ul class="reminders-list"></ul>
+                {% for reminder in reminders %}
+                    <li>{{ reminder.reminder_message }} - {{ reminder.reminder_date }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Ei luotuja muistutuksia.</p>
+        {% endif %}
+    {% endif %}
+    
+    {% if session.user_id %}
+        <p>Olet kirjautunut sisään nimellä <b>{{ session.username }}</b>. <a href="/logout">Kirjaudu ulos</a></p>
+        <p><img src="/static/post-it.jpg"><p></p>
+        
+    {% else %}
+        <p>Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a></p>
+        <p><img src="/static/post-it.jpg"><p>
 
-Voit luoda itsellesi muistiinpanoja saadaksesi arjen aikataulun hallintaan.
 
-{% if session.user_id %}
-Olet kirjautunut sisään nimellä <b>{{ session.username }}</b>. <a href="/logout">Log out</a>
-<p><img src="/static/post-it.jpg"><p></p>
-{% else %}
-<p>Et ole kirjautunut sisään. <a href="/login">Log in</a></p>
-<p><img src="/static/post-it.jpg"><p>
-
-Kieli:          
-<select name="lang">
-<option value="fi" selected> suomi
-<option value="sv"> ruotsi
-<option value="en"> englanti
-</select>
-
-{% endif %}
+    {% endif %}
 {% endblock %}
