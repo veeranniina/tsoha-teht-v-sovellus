@@ -3,13 +3,39 @@
 
 <h2>Luo uusi kategoria</h2>
 
-<form action="/categories" method="POST"></form>
+<form action="/categories" method="POST">
     <label for="name">Nimi:</label><br>
     <input type="text" id="name" name="name" required><br><br>
 
     <input type="submit" value="Luo kategoria">
 </form>
 
-<a href="/">Palaa takaisin</a>
+
+{% if categories %}
+<h2>Olemassa olevat kategoriat:</h2>
+<div class="category-container"> 
+    <ul class="category-list"> 
+        {% for category in categories %}
+        <li>
+            {{ category.name }}
+            <form action="{{ url_for('delete_category_route', category_id=category.id) }}" method="POST" style="display: inline;">
+                <input type="submit" value="Poista">
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="flash-message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% else %}
+<p>Ei vielä luotuja kategorioita.</p>
+{% endif %}
 
 {% endblock %}
