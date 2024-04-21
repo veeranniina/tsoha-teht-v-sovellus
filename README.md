@@ -18,7 +18,13 @@ Tällä hetkellä:
 - Käyttäjä voi luoda uuden tunnuksen ja kirjautua sisään sovellukseen.
 - Käyttäjä voi luoda muistiinpanoja/tehtäviä 
 - Käyttäjä voi muokata ja poistaa muistiinpanoja
+- Käyttäjä voi luoda ja poistaa kategorioita ja lisätä tehtävän yhteyteen kategorian
+- Käyttäjä voi olla valitsematta kategoriaa luodessaan uutta muistiinpanoa
 - Sovellus näyttää, onko käyttäjä kirjautuneena sisään, millä käyttäjänimellä
+- Tietokannasta puuttuu 1 taulu
+- CSS ei ole valmis
+- Kun käyttäjä ei ole kirjautuneena sisään, sivu(t) ohjautuvat kirjautumissivulle
+- Muistutukset näkyvät etusivulla ja omat tehtävät -sivulla
 
 
 Käynnistysohjeet:
