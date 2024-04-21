@@ -4,20 +4,23 @@ Sovellus ei ole testattavissa Fly.iossa.
 Sovelluksen ominaisuuksia:
 
 - Käyttäjä voi luoda uuden tunnuksen ja kirjautua sisään sovellukseen
-- Käyttäjä voi luoda tehtävälistoja/muistiinpanoja, lisätä tehtäviä niihin
+- Käyttäjä voi luoda tehtävälistoja/muistiinpanoja
 - Käyttäjä voi määrittää tehtävien nimen, kuvauksen, määräajan ja mahdollisesti muita tietoja
 - Sovellus voi lähettää käyttäjille muistutuksia määräajoista ja push-ilmoituksia
-- Käyttäjät voivat asettaa prioriteetit tehtäville ja järjestää ne tärkeysjärjestykseen tai luokitteluun esimerkiksi aiheen tai deadline-päivämäärän mukaan
+- Käyttäjä voi asettaa prioriteetit tehtäville ja järjestää ne tärkeysjärjestykseen tai luokitteluun esimerkiksi aiheen tai deadline-päivämäärän mukaan
 - Käyttäjä voi hakea tehtäviä nimen, kuvauksen tai muiden kriteerien perusteella
 - Mahdollisuus asettaa tehtäville toistuvuus, esim. päivittäin, viikoittain tai kuukausittain
 - Käyttäjä voi kirjoittaa jo olemassa olevaan tehtävään
 - Käyttäjä voi muokata tehtävänimikettä ja sen sisältöä sekä määräaikaa
+- Käyttäjä voi luoda kategorioita
 
 
 Tällä hetkellä:
 - Käyttäjä voi luoda uuden tunnuksen ja kirjautua sisään sovellukseen.
-- Käyttäjä voi luoda muistiinpanoja/tehtäviä 
+- Käyttäjä voi luoda tehtävälistoja/muistiinpanoja
+- Käyttäjä voi määrittää tehtävien nimen, kuvauksen, määräajan 
 - Käyttäjä voi muokata ja poistaa muistiinpanoja
+- Käyttäjä voi asettaa prioriteetit tehtäville
 - Käyttäjä voi luoda ja poistaa kategorioita ja lisätä tehtävän yhteyteen kategorian
 - Käyttäjä voi olla valitsematta kategoriaa luodessaan uutta muistiinpanoa
 - Sovellus näyttää, onko käyttäjä kirjautuneena sisään, millä käyttäjänimellä
