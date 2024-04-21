@@ -54,6 +54,7 @@ def create_category(name):
             flash("Samanniminen kategoria on jo olemassa!", "error")
             return False  
         
+        
         #lisätään tietokantaan
         sql_insert = text("INSERT INTO categories (user_id, name) VALUES (:user_id, :name)")
         db.session.execute(sql_insert, {"user_id": user_id, "name": name})
