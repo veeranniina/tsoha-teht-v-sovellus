@@ -22,6 +22,14 @@ CREATE TABLE categories (
     name TEXT
 );
 
+CREATE TABLE reminders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users,
+    task_id INTEGER REFERENCES tasks,
+    reminder_date TIMESTAMP,
+    reminder_message TEXT
+);
+
 
 
 
