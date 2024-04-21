@@ -1,3 +1,22 @@
+.topnav {
+    overflow: hidden;
+    background-color: #ffffff;
+}
+
+.topnav a {
+    float: left;
+    display: block;
+    color: rgb(5, 5, 5);
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.topnav a:hover {
+    background-color: #afafaf;
+}
+
 body {
     margin: auto;
     max-width: 45em;
@@ -37,7 +56,7 @@ li a {
     font-weight: bold;
   }
   
-  td, th {
+td, th {
     border-style: solid;    
     border-color: black;
     border-width: 2px;
@@ -45,6 +64,28 @@ li a {
 }
 
   /* vaihtaa linkkivärin #111 (black) */
-  li a:hover {
+li a:hover {
     background-color: #afafaf;
-  }
+}
+
+.category-list {
+    list-style-type: none;
+    margin: auto; /* keskittää vaakasuunnnassa */
+    padding: 0;
+    background-color: #ffffff;
+    max-width: 80%; 
+    text-align: center; /* keskittää listan lapsielementit */
+}
+
+.category-list li {
+    display: block;
+    clear: both;
+}
+
+.category-list li a {
+    display: block;
+    color: rgb(5, 5, 5);
+    padding: 14px 16px;
+    text-decoration: none;
+    font-weight: bold;
+}
