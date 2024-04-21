@@ -37,6 +37,26 @@
 
     <a href="/new"><button>Luo uusi muistiinpano</button></a>
 
+    <h1>Muistutukset</h1>
+
+    {% if reminders %}
+    
+    <ul class="reminders-list">
+        {% for reminder in reminders %}
+            <li>
+                {{ reminder.reminder_message }} - {{ reminder.reminder_date }}
+                <form action="/delete_reminder/{{ reminder.id }}" method="POST" style="display: inline;">
+                    <button type="submit">Poista</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Ei luotuja muistutuksia.</p>
+    {% endif %}
+
+    <a href="/add_reminder"><button>Luo muistutus</button></a>
+
 {% else %}
     <p>Et ole kirjautunut sisään. <a href="/login">Kirjaudu sisään</a></p>
     <p><img src="/static/post-it.jpg"></p>
