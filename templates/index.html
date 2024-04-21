@@ -2,8 +2,8 @@
 {% block title %}Etusivu{% endblock %}
 {% block content %}
     {% if session.user_id %}
+    <h2>Muistutukset</h2>
         {% if reminders %}
-            <h2>Muistutukset</h2>
             <ul class="reminders-list"></ul>
                 {% for reminder in reminders %}
                     <li>{{ reminder.reminder_message }} - {{ reminder.reminder_date }}</li>
