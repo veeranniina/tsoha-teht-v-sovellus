@@ -12,19 +12,30 @@
 
 
 {% if categories %}
-<h2>Olemassa olevat kategoriat:</h2>
-<div class="category-container"> 
-    <ul class="category-list"> 
-        {% for category in categories %}
-        <li>
-            {{ category.name }}
-            <form action="{{ url_for('delete_category_route', category_id=category.id) }}" method="POST" style="display: inline;">
-                <input type="submit" value="Poista">
-            </form>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+    <h2>Olemassa olevat kategoriat:</h2>
+    <div class="category-container"> 
+        <ul class="category-list"> 
+            {% for category in categories %}
+            <li>
+                <a href="{{ url_for('category_tasks', category_id=category.id) }}">{{ category.name }}</a>
+                <form action="{{ url_for('delete_category_route', category_id=category.id) }}" method="POST" style="display: inline;">
+                    <input type="submit" value="Poista">
+                </form>
+                {% if category.id == selected_category_id %}
+                    {% if category.tasks %}
+                        <ul>
+                            {% for task in category.tasks %}
+                                <li>{{ task.title }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Ei tehtäviä kategoriassa.</p>
+                    {% endif %}
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 
 {% with messages = get_flashed_messages() %}
     {% if messages %}
