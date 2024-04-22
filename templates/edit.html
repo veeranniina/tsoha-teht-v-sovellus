@@ -18,6 +18,7 @@
     
     <label for="category">Kategoria:</label><br>
     <select id="category" name="category">
+        <option value="">Ei kategoriaa</option>
         {% for category in categories %}
             <option value="{{ category.id }}">{{ category.name }}</option>
         {% endfor %}
