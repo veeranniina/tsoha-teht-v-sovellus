@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>Muistiinpano</h1>
+<p><b>Otsikko:</b> {{ task.title }}</p>
+<p><b>Kuvaus:</b> {{ task.description }}</p>
+<p><b>Luotu:</b> {{ task.date }}</p>
+<p><b>Määräaika:</b> {{ task.due_date }}</p>
+<p><b>Tärkeys:</b> {{ task.priority }}</p>
+<a href="/edit/{{ task.id }}">Muokkaa</a>
+
+<a href="/">Takaisin</a>
+
+{% endblock %}
