@@ -196,7 +196,15 @@ def delete_reminder_route(reminder_id):
         flash("Muistutuksen poistaminen epäonnistui", "error")
     return redirect(url_for("home"))
 
-
+@app.route("/category/<int:category_id>")
+def category_tasks(category_id):
+    user_id = session.get("user_id")
+    if user_id is None:
+        return redirect(url_for("login"))
+    
+    tasks = get_tasks_by_category(user_id, category_id)
+    
+    return render_template("category_tasks.html", tasks=tasks)
 
 #@app.route("/forgot_password", methods=["GET", "POST"])
 #def forgot_password():
