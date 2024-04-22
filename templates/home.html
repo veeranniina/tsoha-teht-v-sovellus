@@ -21,7 +21,7 @@
         <tbody>
             {% for task in tasks %}
             <tr>
-                <td>{{ task.title }}</td>
+                <td><a href="/task/{{ task.id }}" style="text-decoration: none; color: black;">{{ task.title }}</a></td>
                 <td>{{ task.description }}</td>
                 <td>{{ task.date }}</td>
                 <td>{{ task.due_date }}</td>
