@@ -60,3 +60,9 @@ def delete_category(category_id):
         return True
     except:
         return False
+    
+def get_tasks_by_category(user_id, category_id):
+    sql = text("SELECT title, description FROM tasks WHERE user_id = :user_id AND category_id = :category_id")
+    result = db.session.execute(sql, {"user_id": user_id, "category_id": category_id})
+    tasks = result.fetchall()
+    return tasks
