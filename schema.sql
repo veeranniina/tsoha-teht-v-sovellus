@@ -30,6 +30,11 @@ CREATE TABLE reminders (
     reminder_message TEXT
 );
 
+CREATE TABLE status (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users,
+    name TEXT
+);
 
 
 
