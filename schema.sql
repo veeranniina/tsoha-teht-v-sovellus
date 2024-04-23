@@ -36,6 +36,13 @@ CREATE TABLE status (
     name TEXT
 );
 
+CREATE TABLE recurrence (
+    id SERIAL PRIMARY KEY, 
+    task_id INTEGER REFERENCES tasks, 
+    frequency INTERVAL, start_date TIMESTAMP, 
+    end_date TIMESTAMP, 
+    FOREIGN KEY (task_id) REFERENCES tasks(id)
+);
 
 
 <-------INSERT INTO categories (user_id, name) VALUES (NULL, 'Ei kategoriaa');       Tämä luo tauluun oman rivin edustamaan "ei kategoriaa" -tilaa.
