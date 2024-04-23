@@ -45,7 +45,7 @@
         {% for reminder in reminders %}
             <li>
                 {{ reminder.reminder_message }} - {{ reminder.reminder_date }}
-                <form action="/delete_reminder/{{ reminder.id }}" method="POST" style="display: inline;">
+                <form action="/delete_reminder/{{ reminder.id }}" method="POST" style="display: inline; color: red;">
                     <button type="submit">Poista</button>
                 </form>
             </li>
