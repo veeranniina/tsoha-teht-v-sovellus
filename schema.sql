@@ -39,7 +39,8 @@ CREATE TABLE status (
 CREATE TABLE recurrence (
     id SERIAL PRIMARY KEY, 
     task_id INTEGER REFERENCES tasks, 
-    frequency INTERVAL, start_date TIMESTAMP, 
+    frequency INTERVAL, 
+    start_date TIMESTAMP, 
     end_date TIMESTAMP, 
     FOREIGN KEY (task_id) REFERENCES tasks(id)
 );
