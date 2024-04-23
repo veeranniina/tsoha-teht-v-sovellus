@@ -6,6 +6,7 @@ from tasks import *
 from datetime import datetime
 from categories import *
 from reminders import *
+from status import *
 #from helpers import generate_random_password
 
 #tehtävänä on käsitellä sivupyynnöt
@@ -55,7 +56,10 @@ def register():
             return render_template("error.html", message="Rekisteröinti ei onnistunut")
         return redirect("/")
 
-
+@app.route("/task/<int:task_id>")
+def view_task(task_id):
+    task = get_task_from_database(task_id)
+    return render_template("task.html", task=task)
 
 @app.route("/new", methods=["GET", "POST"])
 def new():
@@ -102,14 +106,26 @@ def delete_task_route():
         return render_template("home.html", tasks=my_tasks, message=message)  #lisätään viesti templateen
         #"return redirect("/") ??
     
-@app.route("/home")
+@app.route("/home", methods=["GET", "POST"])
 def home():
     user_id = users.user_id()
     if user_id == 0:
         return redirect("/")
-    user_tasks = get_task_list(user_id)
+    
+    if request.method == "POST":
+        sort_by = request.form.get("sort_by")
+        if sort_by == "priority":
+            user_tasks = get_sorted_tasks_by_priority(user_id)
+        elif sort_by == "date":
+            user_tasks = get_sorted_tasks_by_date(user_id)
+        else:
+            user_tasks = get_task_list(user_id)
+    else:
+        user_tasks = get_task_list(user_id)
+
+    user_statuses = get_user_statuses(user_id)
     user_reminders = get_user_reminders(user_id)
-    return render_template("home.html", tasks=user_tasks, reminders=user_reminders)
+    return render_template("home.html", tasks=user_tasks, statuses=user_statuses, reminders=user_reminders)
 
 @app.route("/edit/<int:task_id>", methods=["GET", "POST"])
 def edit_task_route(task_id):
@@ -126,9 +142,8 @@ def edit_task_route(task_id):
         
         if edit_task(task_id, title, description, None, due_date, priority, category_id): #None -> ei muokata luontiaikaa
             message = "Muokkaus onnistui!"
-            return render_template("home.html", message=message)
+            return redirect(url_for("home", message=message)) 
         else:
-            #virheenkäsittely tarvittaessa
             flash("Muokkaus epäonnistui.", "error")
             return redirect(url_for('edit_task', task_id=task_id))
     return render_template("home.html")
@@ -205,6 +220,61 @@ def category_tasks(category_id):
     tasks = get_tasks_by_category(user_id, category_id)
     
     return render_template("category_tasks.html", tasks=tasks)
+
+@app.route("/sort_tasks", methods=["POST"])
+def sort_tasks():
+    sort_by = request.form.get("sort_by")
+    user_id = users.user_id()
+    if user_id == 0:
+        return redirect("/")
+    
+    if sort_by == "priority":
+        tasks = get_sorted_tasks_by_priority(user_id)
+    elif sort_by == "date":
+        tasks = get_sorted_tasks_by_date(user_id)
+    else:
+        tasks = get_task_list(user_id)
+
+    user_reminders = get_user_reminders(user_id)
+    return render_template("home.html", tasks=tasks, reminders=user_reminders)
+
+@app.route("/create_status", methods=["POST"])
+def create_status_route():
+    user_id = session.get("user_id")
+    if user_id is None:
+        return redirect("/login")
+
+    name = request.form.get("name")
+    if create_status(user_id, name):
+        flash("Status luotiin onnistuneesti", "success")
+    else:
+        flash("Statusin luominen epäonnistui", "error")
+    return redirect(url_for("home"))
+
+@app.route("/edit_status/<int:status_id>", methods=["POST"])
+def edit_status_route(status_id):
+    user_id = session.get("user_id")
+    if user_id is None:
+        return redirect("/login")
+
+    name = request.form.get("name")
+    if edit_status(status_id, name):
+        flash("Status päivitettiin onnistuneesti", "success")
+    else:
+        flash("Statusin päivittäminen epäonnistui", "error")
+    return redirect(url_for("home"))
+
+@app.route("/delete_status/<int:status_id>", methods=["POST"])
+def delete_status_route(status_id):
+    user_id = session.get("user_id")
+    if user_id is None:
+        return redirect("/login")
+
+    if delete_status(status_id, user_id):
+        flash("Status poistettiin onnistuneesti", "success")
+    else:
+        flash("Statusin poistaminen epäonnistui", "error")
+    return redirect(url_for("home"))
 
 #@app.route("/forgot_password", methods=["GET", "POST"])
 #def forgot_password():
