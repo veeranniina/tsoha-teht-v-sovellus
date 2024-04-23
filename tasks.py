@@ -5,7 +5,7 @@ from sqlalchemy.sql import text
 def get_task_list(user_id):
     if user_id == 0:
         return []
-    sql = text("SELECT * FROM tasks WHERE user_id=:user_id ORDER BY id DESC")
+    sql = text("SELECT * FROM tasks WHERE user_id=:user_id ORDER BY id DESC") #muokkaa kyselyä
     result = db.session.execute(sql, {"user_id": user_id})
     return result.fetchall()
 
@@ -40,3 +40,13 @@ def get_task_from_database(task_id):
     result = db.session.execute(sql, {"task_id": task_id})
     task = result.fetchone()
     return task
+
+def get_sorted_tasks_by_priority(user_id):
+    sql = text("SELECT id, title, description, date, due_date, priority, category_id FROM tasks WHERE user_id=:user_id ORDER BY priority ASC")
+    result = db.session.execute(sql, {"user_id": user_id})
+    return result.fetchall()
+
+def get_sorted_tasks_by_date(user_id):
+    sql = text("SELECT id, title, description, date, due_date, priority, category_id FROM tasks WHERE user_id=:user_id ORDER BY due_date ASC")
+    result = db.session.execute(sql, {"user_id": user_id})
+    return result.fetchall()
