@@ -13,7 +13,8 @@ CREATE TABLE tasks (
     date TIMESTAMP, 
     due_date TEXT, 
     priority INTEGER, 
-    category_id REFERENCES categories
+    category_id REFERENCES categories,
+    status_id INTEGER REFERENCES status
 );
 
 CREATE TABLE categories (
