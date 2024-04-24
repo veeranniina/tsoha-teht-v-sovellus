@@ -15,7 +15,7 @@
                 <th>Luotu</th>
                 <th>Määräaika</th>
                 <th>Tärkeys</th>
-                <th>Toiminnot</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +26,7 @@
                 <td>{{ task.date }}</td>
                 <td>{{ task.due_date }}</td>
                 <td>{{ task.priority }}</td>
+                <td>{{ task.status_name }}</td>
                 <td><a href="/edit/{{ task.id }}">Muokkaa</a></td>
             </tr>
             
