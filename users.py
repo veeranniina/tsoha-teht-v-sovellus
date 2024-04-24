@@ -50,3 +50,16 @@ def check_csrf():
         # jos csrf_token on väärä, sivun käsittely katkeaa ja tuloksena on HTTP-virhekoodi 
         #403 (Forbidden). Koska hyökkääjä ei tiedä, mikä csrf_token liittyy käyttäjän istuntoon, 
         #tämä estää tehokkaasti CSRF-haavoittuvuuden.
+
+def delete_profile(user_id):
+    user_id = session.get("user_id")
+    if user_id:
+        try:
+            sql = text("DELETE FROM users WHERE id=:user_id")
+            db.session.execute(sql, {"user_id": user_id})
+            db.session.commit()
+            session.clear()  
+            return True
+        except:
+            return False
+    return False
