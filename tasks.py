@@ -13,7 +13,7 @@ def create_task(title, description, date, due_date, priority, category_id):
     user_id = users.user_id()
     if user_id == 0:
         return False
-    sql = text("INSERT INTO tasks (user_id, title, description, date, due_date, priority, category_id) VALUES (:user_id, :title, :description, :date, :due_date, :priority, :category_id)")
+    sql = text("INSERT INTO tasks (user_id, title, description, date, due_date, priority, category_id, status_id) VALUES (:user_id, :title, :description, :date, :due_date, :priority, :category_id)")
     db.session.execute(sql, {"user_id": user_id, "title": title, "description": description, "date": date, "due_date": due_date, "priority": priority, "category_id": category_id})
     db.session.commit()
     return True
@@ -22,12 +22,13 @@ def edit_task(task_id, title, description, date, due_date, priority, category_id
     user_id = users.user_id()
     if user_id == 0:
         return False
-    try: #jos arvo on 'None', käytetään tehtävän nykyistä arvoa tietokannassa
-        sql = text("UPDATE tasks SET title = COALESCE(:title, title), description = COALESCE(:description, description), due_date = COALESCE(:due_date, due_date), priority = COALESCE(:priority, priority), category_id = :category_id WHERE id = :task_id AND user_id = :user_id")
+    try:
+        sql = text("UPDATE tasks SET title = COALESCE(:title, title), description = COALESCE(:description, description), due_date = COALESCE(:due_date, due_date), priority = COALESCE(:priority, priority), category_id = :category_id WHERE id = :task_id AND user_id = :user_id") 
         db.session.execute(sql, {"title": title, "description": description, "date": date, "due_date": due_date, "priority": priority, "category_id": category_id, "task_id": task_id, "user_id": user_id})
         db.session.commit()
         return True
-    except:
+    except Exception as e:
+        print(f"Database error: {e}")
         return False
 
 def delete_task(task_id, user_id):
