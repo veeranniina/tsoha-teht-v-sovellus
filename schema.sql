@@ -33,7 +33,6 @@ CREATE TABLE reminders (
 
 CREATE TABLE status (
     id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users,
     name TEXT
 );
 
