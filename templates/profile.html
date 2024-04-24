@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    <h1>Käyttäjäprofiili</h1>
+    <p>Tervetuloa, {{ session.username }}!</p>
+    <p>Tässä voit hallita profiiliasi ja tehdä erilaisia toimintoja.</p>
+    
+    <p>Poista käyttäjä:</p>
+    <form method="POST" action="{{ url_for('delete_profile_route') }}">
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Haluatko varmasti poistaa käyttäjätilin?')">Poista käyttäjätili</button>
+    </form>
+</div>
+{% endblock %}
