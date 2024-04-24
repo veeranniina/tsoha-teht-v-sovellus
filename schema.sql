@@ -46,4 +46,5 @@ CREATE TABLE recurrence (
 );
 
 
-<-------INSERT INTO categories (user_id, name) VALUES (NULL, 'Ei kategoriaa');       Tämä luo tauluun oman rivin edustamaan "ei kategoriaa" -tilaa.
+INSERT INTO categories (user_id, name) VALUES (NULL, 'Ei kategoriaa');       <----Tämä luo tauluun oman rivin edustamaan "ei kategoriaa" -tilaa.
+INSERT INTO status (id, name) VALUES (1, 'valmis'), (2, 'kesken'), (3, 'ei statusta');
