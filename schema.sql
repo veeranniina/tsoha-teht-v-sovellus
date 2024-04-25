@@ -14,7 +14,7 @@ CREATE TABLE tasks (
     due_date TEXT, 
     priority INTEGER, 
     category_id REFERENCES categories,
-    status_id INTEGER REFERENCES status
+    status_id INTEGER REFERENCES task_status(id)
 );
 
 CREATE TABLE categories (
@@ -31,20 +31,8 @@ CREATE TABLE reminders (
     reminder_message TEXT
 );
 
-CREATE TABLE status (
-    id SERIAL PRIMARY KEY,
-    name TEXT
-);
 
-CREATE TABLE recurrence (
-    id SERIAL PRIMARY KEY, 
-    task_id INTEGER REFERENCES tasks, 
-    frequency INTERVAL, 
-    start_date TIMESTAMP, 
-    end_date TIMESTAMP, 
-    FOREIGN KEY (task_id) REFERENCES tasks(id)
-);
 
 
 INSERT INTO categories (user_id, name) VALUES (NULL, 'Ei kategoriaa');       <----Tämä luo tauluun oman rivin edustamaan "ei kategoriaa" -tilaa.
-INSERT INTO status (id, name) VALUES (1, 'valmis'), (2, 'kesken'), (3, 'ei statusta');
+-- INSERT INTO status (id, name) VALUES (1, 'valmis'), (2, 'kesken'), (3, 'ei statusta');
