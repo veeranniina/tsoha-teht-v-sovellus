@@ -32,9 +32,21 @@ def edit_task(task_id, title, description, date, due_date, priority, category_id
         return False
 
 def delete_task(task_id, user_id):
-    sql = text("DELETE FROM tasks WHERE id=:task_id AND user_id=:user_id")
-    db.session.execute(sql, {"task_id": task_id, "user_id": user_id})
-    db.session.commit()
+    try:
+        #poista ensin muistutukset
+        sql_reminders = text("DELETE FROM reminders WHERE task_id=:task_id")
+        db.session.execute(sql_reminders, {"task_id": task_id})
+        db.session.commit()
+
+        #poista itse tehtävä
+        sql_task = text("DELETE FROM tasks WHERE id=:task_id AND user_id=:user_id")
+        db.session.execute(sql_task, {"task_id": task_id, "user_id": user_id})
+        db.session.commit()
+        
+        return True
+    except Exception as e:
+        print(f"Database error: {e}")
+        return False
 
 def get_task_from_database(task_id):
     sql = text("SELECT * FROM tasks WHERE id=:task_id")
