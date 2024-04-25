@@ -6,7 +6,6 @@ from tasks import *
 from datetime import datetime
 from categories import *
 from reminders import *
-from status import *
 #from helpers import generate_random_password
 
 #tehtävänä on käsitellä sivupyynnöt
@@ -130,27 +129,23 @@ def home():
     else:
         user_tasks = get_task_list(user_id)
 
-    user_statuses = get_statuses()
     user_reminders = get_user_reminders(user_id)
-    return render_template("home.html", tasks=user_tasks, statuses=user_statuses, reminders=user_reminders)
+    return render_template("home.html", tasks=user_tasks, reminders=user_reminders)
 
 @app.route("/edit/<int:task_id>", methods=["GET", "POST"])
 def edit_task_route(task_id):
     if request.method == "GET":
         task = get_task_from_database(task_id) 
-        statuses = get_statuses()
         user_id = session.get("user_id")
         categories = get_categories_from_database(user_id)
-        return render_template("edit.html", task=task, task_id=task_id, statuses=statuses, categories=categories)
+        return render_template("edit.html", task=task, task_id=task_id, categories=categories)
     elif request.method == "POST":
         title = request.form.get("title")
         description = request.form.get("description")
         due_date = request.form.get("due_date")
         priority = request.form.get("priority")
         category_id = request.form.get("category_id")
-        status_id = request.form.get("status_id")
 
-        print("Status ID from form:", status_id)   #debug
         
         if edit_task(task_id, title, description, None, due_date, priority, category_id): #None -> ei muokata luontiaikaa
             return redirect(url_for("home")) 
