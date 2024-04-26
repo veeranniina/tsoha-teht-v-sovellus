@@ -5,28 +5,18 @@ Sovelluksen ominaisuuksia:
 
 - Käyttäjä voi luoda uuden tunnuksen ja kirjautua sisään sovellukseen
 - Käyttäjä voi luoda tehtävälistoja/muistiinpanoja
-- Käyttäjä voi määrittää tehtävien nimen, kuvauksen, määräajan ja mahdollisesti muita tietoja
-- Sovellus voi lähettää käyttäjille muistutuksia määräajoista ja push-ilmoituksia
-- Käyttäjä voi asettaa prioriteetit tehtäville ja järjestää ne tärkeysjärjestykseen tai luokitteluun esimerkiksi aiheen tai deadline-päivämäärän mukaan
-- Käyttäjä voi hakea tehtäviä nimen, kuvauksen tai muiden kriteerien perusteella
-- Mahdollisuus asettaa tehtäville toistuvuus, esim. päivittäin, viikoittain tai kuukausittain
-- Käyttäjä voi kirjoittaa jo olemassa olevaan tehtävään
-- Käyttäjä voi muokata tehtävänimikettä ja sen sisältöä sekä määräaikaa
-- Käyttäjä voi luoda kategorioita
-
-
-Tällä hetkellä:
-- Käyttäjä voi luoda uuden tunnuksen ja kirjautua sisään sovellukseen.
-- Käyttäjä voi luoda tehtävälistoja/muistiinpanoja
-- Käyttäjä voi määrittää tehtävien nimen, kuvauksen, määräajan 
-- Käyttäjä voi muokata ja poistaa muistiinpanoja
+- Käyttäjä voi poistaa muistiinpanoja
+- Käyttäjä voi määrittää tehtävien nimen, kuvauksen, määräajan
 - Käyttäjä voi asettaa prioriteetit tehtäville
-- Käyttäjä voi luoda ja poistaa kategorioita ja lisätä tehtävän yhteyteen kategorian
+- Käyttäjä voi lajitella muistiinpanoja määräajan tai tärkeyden mukaan
+- Käyttäjä voi muokata muistiinpanoa
+- Käyttäjä voi luoda ja poistaa kategorioita ja liittää niihin muistiinpanoja muokkaamalla niitä
 - Käyttäjä voi olla valitsematta kategoriaa luodessaan uutta muistiinpanoa
 - Sovellus näyttää, onko käyttäjä kirjautuneena sisään, millä käyttäjänimellä
-- CSS ei ole valmis
 - Kun käyttäjä ei ole kirjautuneena sisään, sivu(t) ohjautuvat kirjautumissivulle
 - Muistutukset näkyvät etusivulla ja omat tehtävät -sivulla
+
+
 
 
 Käynnistysohjeet:
