@@ -31,7 +31,7 @@ def get_user_reminders(user_id):
     if user_id == 0:
         return False
     try:
-        sql = text("SELECT id, user_id, task_id, reminder_date, reminder_message FROM reminders WHERE user_id = :user_id")
+        sql = text("SELECT id, user_id, task_id, DATE(reminder_date) AS reminder_date, reminder_message FROM reminders WHERE user_id = :user_id")
         result = db.session.execute(sql, {"user_id": user_id})
         reminders = result.fetchall()
         return reminders
