@@ -6,6 +6,7 @@ from tasks import *
 from datetime import datetime
 from categories import *
 from reminders import *
+from recycle_bin import *
 #from helpers import generate_random_password
 
 #tehtävänä on käsitellä sivupyynnöt
@@ -98,7 +99,6 @@ def new():
 
 @app.route("/delete", methods=["GET", "POST"])
 def delete_task_route():
-    #user_id = session.get("user_id")
     if request.method == "GET":
         my_tasks = get_task_list(users.user_id())
         return render_template("delete.html", list=my_tasks)
@@ -106,11 +106,15 @@ def delete_task_route():
         users.check_csrf()
         if "task" in request.form:
             task = request.form["task"]
-            delete_task(task, users.user_id())
-            message = "Muistiinpanon poistaminen onnistui!"  #asetetaan viesti
-        my_tasks = get_task_list(users.user_id())  #päivitetään tehtävälista/muistiinpanot
-        return render_template("home.html", tasks=my_tasks, message=message)  #lisätään viesti templateen
-        #"return redirect("/") ??
+            if delete_task_to_recycle_bin(task, users.user_id()):  #siirretään muistiinpano roskakoriin
+                message = "Muistiinpanon poistaminen onnistui!"  
+            else:
+                message = "Tehtävän poistaminen epäonnistui!"
+        else:
+            message = "Tehtävää ei valittu poistettavaksi."
+        
+        my_tasks = get_task_list(users.user_id())  #päivitetään muistiinpanot
+        return render_template("home.html", tasks=my_tasks, message=message)
     
 @app.route("/home", methods=["GET", "POST"])
 def home():
@@ -257,50 +261,21 @@ def delete_profile_route():
     else:
         return redirect(url_for("index"))
     
+@app.route('/recycle_bin')
+def recycle_bin_view():
+    user_id = session.get("user_id")
+    deleted_tasks = get_deleted_tasks(user_id)
+    return render_template('recycle_bin.html', deleted_tasks=deleted_tasks)
 
-#@app.route("/edit_status/<int:status_id>", methods=["POST"])
-#def edit_status_route(status_id):
- #   user_id = session.get("user_id")
-  #  if user_id is None:
-   #     return redirect("/login")
-
-    #name = request.form.get("name")
-    #if edit_status(status_id, name):
-     #   flash("Status päivitettiin onnistuneesti", "success")
-    #else:
-     #   flash("Statusin päivittäminen epäonnistui", "error")
-    #return redirect(url_for("home"))
-
-#@app.route("/delete_status/<int:status_id>", methods=["POST"])
-#def delete_status_route(status_id):
- #   user_id = session.get("user_id")
-  #  if user_id is None:
-   #     return redirect("/login")
-
-    #if delete_status(status_id, user_id):
-     #   flash("Status poistettiin onnistuneesti", "success")
-    #else:
-     #   flash("Statusin poistaminen epäonnistui", "error")
-    #return redirect(url_for("home"))
+@app.route('/permanently_delete_task/<int:task_id>', methods=['POST'])
+def permanently_delete_task_route(task_id):
+    if request.method == 'POST':
+        if permanently_delete_task(task_id):
+            flash("Muistiinpano poistettiin pysyvästi.", "success")
+        else:
+            flash("Muistiinpanon poistaminen pysyvästi epäonnistui.", "error")
+    return redirect(url_for("recycle_bin_view"))
 
 
-#@app.route("/forgot_password", methods=["GET", "POST"])
-#def forgot_password():
-    #if request.method == 'POST':
-        #email = request.form['email'] 
-        #tarkista onko sposti olemassa tietokannassa käyttäjän kohdalla -> LISÄÄ sarake EMAIL TIETOKANTAAN USERS
-        #user = users.query.filter_by(email=email).first()   #<-----onko oikein??
-        #if user:
-            #luodaan uusi salasana, joka lähetetään sähköpostitse käyttäjälle
-            #new_password = generate_random_password() #luodaan random salasana
-            #user.password = generate_password_hash(new_password) #tallennetaan salasana tietokantaan
-            #db.session.commit()
-            #send_password_reset_email(user.email, new_password) #lähetetään spostia uudesta salasanasta
-            #flash('Salasanan palautuslinkki lähetettiin sähköpostiisi.')
-            #return redirect(url_for('login'))
-        #else:
-            #flash('Sähköpostiosoite ei ole rekisteröity.')
-
-    #return render_template('forgot_password.html')
 
 
