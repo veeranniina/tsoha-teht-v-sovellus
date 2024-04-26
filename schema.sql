@@ -2,7 +2,6 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username TEXT UNIQUE,
     password TEXT,
-    admin BOOLEAN
 );
 
 CREATE TABLE tasks (
@@ -14,7 +13,6 @@ CREATE TABLE tasks (
     due_date TEXT, 
     priority INTEGER, 
     category_id REFERENCES categories,
-    status_id INTEGER REFERENCES task_status(id)
 );
 
 CREATE TABLE categories (
@@ -31,8 +29,12 @@ CREATE TABLE reminders (
     reminder_message TEXT
 );
 
-
+CREATE TABLE recycle_bin ( 
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users,
+    task_id INTEGER REFERENCES tasks, 
+    deletion_timestamp TIMESTAMP 
+);
 
 
 INSERT INTO categories (user_id, name) VALUES (NULL, 'Ei kategoriaa');       <----Tämä luo tauluun oman rivin edustamaan "ei kategoriaa" -tilaa.
--- INSERT INTO status (id, name) VALUES (1, 'valmis'), (2, 'kesken'), (3, 'ei statusta');
