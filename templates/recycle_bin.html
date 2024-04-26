@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2>Roskakori</h2>
+
+{% if deleted_tasks %}
+    <div class="deleted-tasks-container"> 
+        <ul class="deleted-tasks-list"> 
+            {% for task in deleted_tasks %}
+            <li>
+                <span class="task-info">{{ task.title }} - {{ task.description }} - {{ task.deletion_time }}</span>
+                <form action="/permanently_delete_task/{{ task.id }}" method="post" class="delete-form">
+                    <button type="submit" class="permanently-delete-task-link">Poista pysyvästi</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% else %}
+    <p>Roskakori on tyhjä.</p>
+{% endif %}
+
+{% endblock %}
