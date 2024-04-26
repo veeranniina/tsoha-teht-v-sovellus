@@ -1,19 +1,25 @@
 from db import db
 import users
 from sqlalchemy.sql import text
+from sqlalchemy.exc import SQLAlchemyError
+from datetime import datetime
 
 def get_task_list(user_id):
-    if user_id == 0:
+    try:
+        if user_id == 0:
+            return []
+        sql = text("SELECT * FROM tasks WHERE user_id=:user_id ORDER BY id DESC")
+        result = db.session.execute(sql, {"user_id": user_id})
+        return result.fetchall()
+    except SQLAlchemyError as e:
+        print(f"SQLAlchemy error: {e}")
         return []
-    sql = text("SELECT * FROM tasks WHERE user_id=:user_id ORDER BY id DESC") #muokkaa kyselyä
-    result = db.session.execute(sql, {"user_id": user_id})
-    return result.fetchall()
 
 def create_task(title, description, date, due_date, priority, category_id):
     user_id = users.user_id()
     if user_id == 0:
         return False
-    sql = text("INSERT INTO tasks (user_id, title, description, date, due_date, priority, category_id, status_id) VALUES (:user_id, :title, :description, :date, :due_date, :priority, :category_id)")
+    sql = text("INSERT INTO tasks (user_id, title, description, date, due_date, priority, category_id) VALUES (:user_id, :title, :description, :date, :due_date, :priority, :category_id)")
     db.session.execute(sql, {"user_id": user_id, "title": title, "description": description, "date": date, "due_date": due_date, "priority": priority, "category_id": category_id})
     db.session.commit()
     return True
@@ -31,19 +37,33 @@ def edit_task(task_id, title, description, date, due_date, priority, category_id
         print(f"Database error: {e}")
         return False
 
-def delete_task(task_id, user_id):
+def delete_task_to_recycle_bin(task_id, user_id):
     try:
-        #poista ensin muistutukset
-        sql_reminders = text("DELETE FROM reminders WHERE task_id=:task_id")
-        db.session.execute(sql_reminders, {"task_id": task_id})
+        #poistetaan ensin muistutukset
+        sql_delete_reminders = text("DELETE FROM reminders WHERE task_id=:task_id")
+        db.session.execute(sql_delete_reminders, {"task_id": task_id})
         db.session.commit()
 
-        #poista itse tehtävä
-        sql_task = text("DELETE FROM tasks WHERE id=:task_id AND user_id=:user_id")
-        db.session.execute(sql_task, {"task_id": task_id, "user_id": user_id})
-        db.session.commit()
-        
-        return True
+        #haetaan poistettava muistiinpano
+        sql_select_task = text("SELECT id, title, description, date, due_date, priority, category_id FROM tasks WHERE id=:task_id AND user_id=:user_id")
+        result = db.session.execute(sql_select_task, {"task_id": task_id, "user_id": user_id})
+        task = result.fetchone()
+
+        if task:
+            #lisätään poistettu tehtävä recycle_bin-tauluun
+            deletion_timestamp = datetime.now()
+            sql_insert_recycle_bin = text("INSERT INTO recycle_bin (user_id, task_id, deletion_timestamp) VALUES (:user_id, :task_id, :deletion_timestamp)")
+            db.session.execute(sql_insert_recycle_bin, {"user_id": user_id, "task_id": task_id, "deletion_timestamp": deletion_timestamp})
+            db.session.commit()
+
+            #poistetaan tehtävä tasks-taulusta
+            sql_delete_task = text("DELETE FROM tasks WHERE id=:task_id AND user_id=:user_id")
+            db.session.execute(sql_delete_task, {"task_id": task_id, "user_id": user_id})
+            db.session.commit()
+            
+            return True
+        else:
+            return False
     except Exception as e:
         print(f"Database error: {e}")
         return False
