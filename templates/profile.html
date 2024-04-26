@@ -3,7 +3,7 @@
 <div class="container">
     <h1>Käyttäjäprofiili</h1>
     <p>Tervetuloa, {{ session.username }}!</p>
-    <p>Tässä voit hallita profiiliasi ja tehdä erilaisia toimintoja.</p>
+    <p>Täällä voit poistaa käyttäjäsi.</p>
     
     <p>Poista käyttäjä:</p>
     <form method="POST" action="{{ url_for('delete_profile_route') }}">
