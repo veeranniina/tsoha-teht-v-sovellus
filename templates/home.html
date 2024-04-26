@@ -7,6 +7,14 @@
 
     {% if tasks %}
     <h1>Muistiinpanot</h1>
+    <form action="/sort_tasks" method="POST">
+        <label for="sort_by">Lajittele:</label>
+        <select name="sort_by" id="sort_by">
+            <option value="priority">Tärkeys</option>
+            <option value="date">Määräaika</option>
+        </select>
+        <button type="submit">Lajittele</button>
+    </form>
     <table>
         <thead>
             <tr>
@@ -44,7 +52,7 @@
         {% for reminder in reminders %}
             <li>
                 {{ reminder.reminder_message }} - {{ reminder.reminder_date }}
-                <form action="/delete_reminder/{{ reminder.id }}" method="POST" style="display: inline; color: red;">
+                <form action="/delete_reminder/{{ reminder.id }}" method="POST" style="display: inline;">
                     <button type="submit">Poista</button>
                 </form>
             </li>
