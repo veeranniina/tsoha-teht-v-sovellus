@@ -3,7 +3,7 @@ from sqlalchemy.sql import text
 
 def get_deleted_tasks(user_id):
     try:
-        sql = text("SELECT tasks.id, title, description, to_char(recycle_bin.deletion_timestamp, 'YYYY-MM-DD HH24:MI') AS deletion_time FROM tasks JOIN recycle_bin ON tasks.id = recycle_bin.task_id WHERE tasks.user_id=:user_id")
+        sql = text("SELECT DISTINCT tasks.id, title, description, to_char(recycle_bin.deletion_timestamp, 'YYYY-MM-DD HH24:MI') AS deletion_time FROM tasks JOIN recycle_bin ON tasks.id = recycle_bin.task_id WHERE tasks.user_id=:user_id")
         result = db.session.execute(sql, {"user_id": user_id})
         deleted_tasks = result.fetchall()
         return deleted_tasks
