@@ -11,15 +11,12 @@ Sovelluksen ominaisuuksia:
 - Käyttäjä voi lajitella muistiinpanoja määräajan tai tärkeyden mukaan
 - Käyttäjä voi muokata muistiinpanoa
 - Käyttäjä voi luoda ja poistaa kategorioita ja liittää niihin muistiinpanoja muokkaamalla niitä
+- Kun käyttäjä painaa "Omat kategoriat" -sivulla kategorian nimeä, avautuu kategoriaan liittyvät muistiinpanot
 - Käyttäjä voi olla valitsematta kategoriaa luodessaan uutta muistiinpanoa
 - Sovellus näyttää, onko käyttäjä kirjautuneena sisään, millä käyttäjänimellä
 - Kun käyttäjä ei ole kirjautuneena sisään, sivu(t) ohjautuvat kirjautumissivulle
 - Muistutukset näkyvät etusivulla ja omat tehtävät -sivulla
 - Käyttäjä voi poistaa tilinsä sovelluksesta
-
-Sovelluksessa EI TOIMI:
-- Kun käytäjä poistaa muistiinpanon, se siirtyy roskakoriin, mutta näkyy edelleen home.html-sivulla (yritin muokata home.html -näkymää tuloksetta).
-Tavoitteena olisi ollut, että kun muistiinpano poistetaan home-sivulla, niin muistiinpano häviää sivulta (muistiinpanoa ei voi poistaa koska taulussa recycle_bin viitataan tasks-tauluun).
 
 
 
