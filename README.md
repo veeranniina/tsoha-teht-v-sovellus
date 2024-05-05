@@ -15,6 +15,7 @@ Sovelluksen ominaisuuksia:
 - Sovellus näyttää, onko käyttäjä kirjautuneena sisään, millä käyttäjänimellä
 - Kun käyttäjä ei ole kirjautuneena sisään, sivu(t) ohjautuvat kirjautumissivulle
 - Muistutukset näkyvät etusivulla ja omat tehtävät -sivulla
+- Käyttäjä voi poistaa tilinsä sovelluksesta
 
 Sovelluksessa EI TOIMI:
 - Kun käytäjä poistaa muistiinpanon, se siirtyy roskakoriin, mutta näkyy edelleen home.html-sivulla (yritin muokata home.html -näkymää tuloksetta).
