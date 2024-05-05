@@ -104,12 +104,13 @@ def delete_task_route():
         return render_template("delete.html", list=my_tasks)
     if request.method == "POST":
         users.check_csrf()
+        message = ""
         if "task" in request.form:
             task = request.form["task"]
             if delete_task_to_recycle_bin(task, users.user_id()):  #siirretään muistiinpano roskakoriin
                 message = "Muistiinpanon poistaminen onnistui!"  
-            else:
-                message = "Tehtävän poistaminen epäonnistui!"
+                my_tasks = get_task_list(users.user_id())
+                return render_template("home.html", tasks=my_tasks, message=message)
         else:
             message = "Tehtävää ei valittu poistettavaksi."
         
@@ -133,8 +134,12 @@ def home():
     else:
         user_tasks = get_task_list(user_id)
 
+    #tarkista, onko poistetut tehtävät roskakorissa ja poista ne näkymästä
+    deleted_tasks = get_deleted_tasks(user_id)
+    updated_tasks = [task for task in user_tasks if task.id not in [deleted_task.id for deleted_task in deleted_tasks]]
+
     user_reminders = get_user_reminders(user_id)
-    return render_template("home.html", tasks=user_tasks, reminders=user_reminders)
+    return render_template("home.html", tasks=updated_tasks, reminders=user_reminders)
 
 @app.route("/edit/<int:task_id>", methods=["GET", "POST"])
 def edit_task_route(task_id):
