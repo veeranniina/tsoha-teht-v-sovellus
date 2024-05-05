@@ -21,17 +21,6 @@
                 <form action="{{ url_for('delete_category_route', category_id=category.id) }}" method="POST" style="display: inline;">
                     <input type="submit" value="Poista">
                 </form>
-                {% if category.id == selected_category_id %}
-                    {% if category.tasks %}
-                        <ul>
-                            {% for task in category.tasks %}
-                                <li>{{ task.title }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p>Ei tehtäviä kategoriassa.</p>
-                    {% endif %}
-                {% endif %}
             </li>
             {% endfor %}
         </ul>
