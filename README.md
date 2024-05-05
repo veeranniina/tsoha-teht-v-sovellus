@@ -16,6 +16,10 @@ Sovelluksen ominaisuuksia:
 - Kun käyttäjä ei ole kirjautuneena sisään, sivu(t) ohjautuvat kirjautumissivulle
 - Muistutukset näkyvät etusivulla ja omat tehtävät -sivulla
 
+Sovelluksessa EI TOIMI:
+- Kun käytäjä poistaa muistiinpanon, se siirtyy roskakoriin, mutta näkyy edelleen home.html-sivulla (yritin muokata home.html -näkymää tuloksetta).
+Tavoitteena olisi ollut, että kun muistiinpano poistetaan home-sivulla, niin muistiinpano häviää sivulta (muistiinpanoa ei voi poistaa koska taulussa recycle_bin viitataan tasks-tauluun).
+
 
 
 
