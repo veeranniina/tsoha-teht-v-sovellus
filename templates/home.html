@@ -40,7 +40,9 @@
         </tbody>
     </table>
     <a href="/delete"><button type="button">Poista muistiinpano</button></a>
-{% endif %}
+    {% else %}
+        <p>Ei muistiinpanoja.</p>
+    {% endif %}
 
     <a href="/new"><button>Luo uusi muistiinpano</button></a>
 
