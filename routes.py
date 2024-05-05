@@ -276,10 +276,9 @@ def recycle_bin_view():
 def permanently_delete_task_route(task_id):
     if request.method == 'POST':
         if permanently_delete_task(task_id):
-            flash("Muistiinpano poistettiin pysyvästi.", "success")
+            return redirect(url_for("recycle_bin_view"))
         else:
-            flash("Muistiinpanon poistaminen pysyvästi epäonnistui.", "error")
-    return redirect(url_for("recycle_bin_view"))
+            return render_template("error.html", message="Muistiinpanon poistaminen pysyvästi epäonnistui.")
 
 
 
