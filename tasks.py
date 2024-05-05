@@ -8,7 +8,7 @@ def get_task_list(user_id):
     try:
         if user_id == 0:
             return []
-        sql = text("SELECT * FROM tasks WHERE user_id=:user_id ORDER BY id DESC")
+        sql = text("SELECT id, title, description, date, due_date, priority, category_id FROM tasks WHERE user_id=:user_id ORDER BY id DESC")
         result = db.session.execute(sql, {"user_id": user_id})
         return result.fetchall()
     except SQLAlchemyError as e:
@@ -69,7 +69,7 @@ def delete_task_to_recycle_bin(task_id, user_id):
         return False
 
 def get_task_from_database(task_id):
-    sql = text("SELECT * FROM tasks WHERE id=:task_id")
+    sql = text("SELECT id, user_id, title, description, date, due_date, priority, category_id FROM tasks WHERE id=:task_id")
     result = db.session.execute(sql, {"task_id": task_id})
     task = result.fetchone()
     return task
